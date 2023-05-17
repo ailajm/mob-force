@@ -1,0 +1,33 @@
+{
+  "name": "mob-force",
+  "version": "0.0.1",
+  "description": "monster collector/rpg game using JS, Node, and React.",
+  "main": "server/app.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cotymckinney/mob-force.git"
+  },
+  "keywords": [
+    "monster",
+    "collector",
+    "rpg",
+    "game",
+    "javascript",
+    "node",
+    "react"
+  ],
+  "author": "Coty McKinney",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cotymckinney/mob-force/issues"
+  },
+  "homepage": "https://github.com/cotymckinney/mob-force#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "mongoose": "^7.1.1"
+  }
+}

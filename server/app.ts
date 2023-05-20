@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import { MongoClient, Db, Collection } from 'mongodb';
-import fs from 'fs';
 
 dotenv.config();
 

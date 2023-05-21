@@ -2,6 +2,8 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import { MongoClient, Db, Collection } from 'mongodb';
+import playerRoutes from './routes/players';
+import monsterRoutes from './routes/monsters';
 
 dotenv.config();
 
@@ -20,6 +22,8 @@ const app: express.Application = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use('/api/players', playerRoutes);
+app.use('/api/monsters', monsterRoutes);
 
 // Connect to MongoDB
 async function run() {

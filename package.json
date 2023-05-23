@@ -2,7 +2,7 @@
   "name": "mob-force",
   "version": "0.0.1",
   "description": "monster collector/rpg game using JS, Node, and React.",
-  "main": "server/app.js",
+  "main": "server/app.ts",
   "scripts": {
     "test": "jest",
     "dev": "nodemon --exec ts-node --files server/app.ts"
@@ -38,6 +38,8 @@
     "mongoose": "^7.1.1"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.2",
+    "jest": "^28.3.1",
     "@types/mongoose": "^5.11.97",
     "nodemon": "^2.0.22",
     "ts-node": "^10.9.1",

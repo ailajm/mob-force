@@ -1,7 +1,7 @@
 // Imports
 import React from 'react';
 
-// Define Monster data type
+// Define Monster type
 interface Monster {
   _id: string;
   name: string;
@@ -12,18 +12,20 @@ interface Monster {
   befriended: boolean;
 }
 
-// Define props for monster component
 interface MonsterProps {
   monster: Monster;
 }
 
-// Monster component
+// Define Monster
 const Monster: React.FC<MonsterProps> = ({ monster }) => {
   return (
     <div className="monster">
       <h2>{monster.name}</h2>
       <p>Level: {monster.level}</p>
-      {/* Display other monster info here */}
+      <p>Health: {monster.health}</p>
+      <p>Experience: {monster.experience}</p>
+      <p>Specialization Path: {monster.specializationPath}</p>
+      <p>Befriended: {monster.befriended ? 'Yes' : 'No'}</p>
     </div>
   );
 }

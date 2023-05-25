@@ -1,27 +1,35 @@
-// Import
+// Imports 
 import React from 'react';
 
-// Define Player data type
+// Define Player type
 interface Player {
   _id: string;
   name: string;
   gender: string;
-  monsters: string[]; // An array of Monster's _id, adjust according to your data structure
+  monsters: string[]; // Monster _id array
 }
 
-// Interface to specify props
 interface PlayerProps {
   player: Player;
 }
 
+// Define Player
 const Player: React.FC<PlayerProps> = ({ player }) => {
   return (
     <div className="player">
       <h2>{player.name}</h2>
-      <p>{player.gender}</p>
-      {/* Display other player info here */}
+      <p>Gender: {player.gender}</p>
+      <div>
+        Monsters:
+        <ul>
+          {player.monsters.map(monsterId => (
+            <li key={monsterId}>{monsterId}</li> // Replace with a Monster component
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }
 
+// Export
 export default Player;

@@ -9,23 +9,15 @@ interface Environment {
 
 // Define props for environment component
 interface EnvironmentProps {
-  environment: Environment | null; // The environment can be null
+  environment: Environment;
 }
 
 // Environment
 const Environment: React.FC<EnvironmentProps> = ({ environment }) => {
-  // Check if environment exists
-  if (!environment) {
-    return (
-      <div className="environment">
-        <h2>Environment not found.</h2>
-      </div>
-    );
-  }
-
   return (
     <div className="environment">
       <h2>{environment.name}</h2>
+      {/* Display other environment info here */}
     </div>
   );
 }

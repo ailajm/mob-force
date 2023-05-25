@@ -13,6 +13,20 @@ const App: React.FC = () => {
   const [monsterData, setMonsterData] = useState<MonsterType | null>(null);
   const [environmentData, setEnvironmentData] = useState<EnvironmentType | null>(null);
 
+  useEffect(() => {
+    axios.get<PlayerType>('/api/player').then(response => {
+      setPlayerData(response.data);
+    });
+
+    axios.get<MonsterType>('/api/monster').then(response => {
+      setMonsterData(response.data);
+    });
+
+    axios.get<EnvironmentType>('/api/environment').then(response => {
+      setEnvironmentData(response.data);
+    });
+  }, []);
+
   if(!playerData || !monsterData || !environmentData) {
     return <div>Loading...</div>;
   }

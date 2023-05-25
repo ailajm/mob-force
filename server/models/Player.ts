@@ -2,7 +2,7 @@
 import mongoose, { Document, Schema } from 'mongoose';
 
 // Define interface
-interface Player extends Document {
+interface IPlayer extends Document {
   name: string;
   gender: string;
   monsters: Array<Schema.Types.ObjectId>;
@@ -16,4 +16,4 @@ const PlayerSchema: Schema = new Schema({
 });
 
 // Export model
-export default mongoose.model<Player>('Player', PlayerSchema);
+export default mongoose.model<IPlayer>('Player', PlayerSchema);

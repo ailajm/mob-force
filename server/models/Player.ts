@@ -10,8 +10,8 @@ interface Player extends Document {
 
 // Define schema
 const PlayerSchema: Schema = new Schema({
-  name: String,
-  gender: String,
+  name: { type: String, required: true },
+  gender: { type: String, required: true },
   monsters: [{ type: Schema.Types.ObjectId, ref: 'Monster' }]
 });
 

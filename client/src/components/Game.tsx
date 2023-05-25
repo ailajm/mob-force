@@ -1,4 +1,4 @@
-// Import
+// Imports
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
@@ -13,22 +13,30 @@ interface Monster {
   befriended: boolean;
 }
 
+// Define Game
 const Game: React.FC = () => {
   const [monsters, setMonsters] = useState<Monster[]>([]);
+  console.log(monsters);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchData() {
-      const response = await axios.get<Monster[]>('/api/monsters');
-      setMonsters(response.data);
+      try {
+        const response = await axios.get<Monster[]>('/api/monsters');
+        setMonsters(response.data);
+      } catch (err) {
+        setError('Failed to fetch monsters. Please try again later.');
+      }
     }
     fetchData();
   }, []);
 
-  // logic
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="game">
-      {/* components */}
     </div>
   );
 }

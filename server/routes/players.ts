@@ -6,15 +6,25 @@ const router = express.Router();
 
 // Get all players
 router.get('/', async (req: Request, res: Response) => {
-  const players = await Player.find();
-  res.json(players);
+  try {
+    const players = await Player.find();
+    res.json(players);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 // Add a new player
 router.post('/', async (req: Request, res: Response) => {
   const newPlayer = new Player(req.body);
-  const savedPlayer = await newPlayer.save();
-  res.json(savedPlayer);
+
+  try {
+    const savedPlayer = await newPlayer.save();
+    res.json(savedPlayer);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
+// Exports
 export default router;

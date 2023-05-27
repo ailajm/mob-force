@@ -1,3 +1,4 @@
+// Imports
 import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
@@ -29,13 +30,24 @@ app.use('/api/monsters', monsterRoutes);
 async function run() {
   try {
     await client.connect();
+    console.log("Connected successfully");
     database = client.db(process.env.DATABASE || '');
     const collectionInstance: Collection = database.collection(collection);
     const docCount: number = await collectionInstance.countDocuments({});
     console.log(docCount);
-  } finally {
-    await client.close();
+  } catch(error) {
+    console.error("Failed to connect", error);
   }
 }
 
-run().catch(console.dir);
+run();
+
+// Close connection when server shuts down
+process.on('SIGINT', async () => {
+  console.log("Server shutting down...");
+  if (!client.topology.isConnected()) {
+    await client.close();
+    console.log("Connection closed.");
+  }
+  process.exit(0);
+});

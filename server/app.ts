@@ -3,6 +3,7 @@ import dotenv from 'dotenv';
 import express from 'express';
 import cors from 'cors';
 import { MongoClient, Db, Collection } from 'mongodb';
+import winston from 'winston';
 import playerRoutes from './routes/players';
 import monsterRoutes from './routes/monsters';
 
@@ -17,6 +18,17 @@ const client: MongoClient = new MongoClient('mongodb+srv://cluster0.liia5nk.mong
 let database: Db;
 let collection: string = process.env.COLLECTION || '';
 
+// Init logger
+const logger = winston.createLogger({
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    new winston.transports.File({ filename: 'error.log', level: 'error' }),
+    new winston.transports.File({ filename: 'combined.log' }),
+  ],
+});
+
 // app init
 const app: express.Application = express();
 
@@ -30,13 +42,13 @@ app.use('/api/monsters', monsterRoutes);
 async function run() {
   try {
     await client.connect();
-    console.log("Connected successfully");
+    logger.info("Connected successfully");
     database = client.db(process.env.DATABASE || '');
     const collectionInstance: Collection = database.collection(collection);
     const docCount: number = await collectionInstance.countDocuments({});
-    console.log(docCount);
+    logger.info(`Document Count: ${docCount}`);
   } catch(error) {
-    console.error("Failed to connect", error);
+    logger.error("Failed to connect", error);
   }
 }
 
@@ -44,10 +56,10 @@ run();
 
 // Close connection when server shuts down
 process.on('SIGINT', async () => {
-  console.log("Server shutting down...");
+  logger.info("Server shutting down...");
   if (!client.topology.isConnected()) {
     await client.close();
-    console.log("Connection closed.");
+    logger.info("Connection closed.");
   }
   process.exit(0);
 });

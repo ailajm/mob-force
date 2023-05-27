@@ -1,8 +1,15 @@
 // Imports
 import express, { Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
 import Player from '../models/Player';
 
 const router = express.Router();
+
+// Validation
+const playerValidationRules = [
+  body('name').isString().withMessage('Name must be a string.'),
+  body('level').isInt({ min: 1 }).withMessage('Level must be greater than 0.'),
+];
 
 // Get all players
 router.get('/', async (req: Request, res: Response) => {
@@ -15,7 +22,13 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // Add a new player
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', playerValidationRules, async (req: Request, res: Response) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const newPlayer = new Player(req.body);
 
   try {

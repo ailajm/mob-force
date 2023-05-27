@@ -1,8 +1,15 @@
 // Imports
 import express, { Request, Response } from 'express';
+import { body, validationResult } from 'express-validator';
 import Monster from '../models/Monster';
 
 const router = express.Router();
+
+// Validation rules
+const monsterValidationRules = [
+  body('name').isString().withMessage('Name must be a string.'),
+  body('level').isInt({ min: 1 }).withMessage('Level must be greater than 0.'),
+];
 
 // Get all monsters
 router.get('/', async (req: Request, res: Response) => {
@@ -15,7 +22,12 @@ router.get('/', async (req: Request, res: Response) => {
 });
 
 // Add a new monster
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', monsterValidationRules, async (req: Request, res: Response) => {
+  // Validate request
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
 
   const newMonster = new Monster(req.body);
 
@@ -27,5 +39,5 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-// Export
+// Exports
 export default router;

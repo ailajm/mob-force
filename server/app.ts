@@ -49,6 +49,12 @@ async function run() {
     logger.info(`Document Count: ${docCount}`);
   } catch(error) {
     logger.error("Failed to connect", error);
+    try {
+      await client.close();
+      logger.info("Connection closed due to error.");
+    } catch (closeError) {
+      logger.error("Failed to close connection", closeError);
+    }
   }
 }
 
@@ -57,9 +63,11 @@ run();
 // Close connection when server shuts down
 process.on('SIGINT', async () => {
   logger.info("Server shutting down...");
-  if (!client.topology.isConnected()) {
+  try {
     await client.close();
     logger.info("Connection closed.");
+  } catch (closeError) {
+    logger.error("Failed to close connection", closeError);
   }
   process.exit(0);
 });
